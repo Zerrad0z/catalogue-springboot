@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Produits</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="/bootstrap.min.css"/>
+</head>
+<p> </p>
+<body>
+    <div class="container">
+        <form th:action="@{/index}" method="get">
+    <label for="mc">Mot Clé</label>
+    <input type="text" name="motCle" th:value="${motCle}"/>
+    <button class="btn btn-primary">Chercher</button>
+</form>
+    </div>
+    <div class="container">
+        <h3>Liste des Produits</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th><th>Désignation</th><th>Prix</th><th>Quantité</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="p : ${listProduits}">
+                    <td th:text="${p.id}"></td>
+                    <td th:text="${p.designation}"></td>
+                    <td th:text="${p.prix}"></td>
+                    <td th:text="${p.quantite}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="container">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li th:each="pa,status:${pages}" th:class="${pageCourante} == ${status.index} ? 'page-item active' : 'page-item'">
+                    <a class="page-link" th:href="@{index(page=${status.index}, size=${size},motCle=${motCle})}" th:text="${status.index}"></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</body>
+</html>
