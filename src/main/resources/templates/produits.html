@@ -11,7 +11,7 @@
     <div class="container">
         <form th:action="@{/index}" method="get">
     <label for="mc"></label>
-    <input type="text" name="motCle" th:value="${motCle}"/>
+    <input type="text" name="mc" th:value="${motCle}"/>
     <button class="btn btn-primary">Chercher</button>
 </form>
     </div>
@@ -29,6 +29,8 @@
                     <td th:text="${p.designation}"></td>
                     <td th:text="${p.prix}"></td>
                     <td th:text="${p.quantite}"></td>
+                    <td><a  th:href="@{delete(id=${p.id},page=${pageCourante},size=${size},motCle=${motCle})}">Delete</a></td>
+
                 </tr>
             </tbody>
         </table>
@@ -37,7 +39,7 @@
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center">
                 <li th:each="pa,status:${pages}" th:class="${pageCourante} == ${status.index} ? 'page-item active' : 'page-item'">
-                    <a class="page-link" th:href="@{index(page=${status.index}, size=${size},motCle=${motCle})}" th:text="${status.index}"></a>
+                    <a class="page-link" th:href="@{index(page=${status.index}, size=${size},mc=${motCle})}" th:text="${status.index}"></a>
                 </li>
             </ul>
         </nav>
