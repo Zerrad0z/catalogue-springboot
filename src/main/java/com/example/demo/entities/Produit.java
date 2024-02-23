@@ -7,15 +7,23 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import org.springframework.lang.NonNull;
+
 import java.io.Serializable;
 
 @Entity
 public class Produit implements Serializable{
     @Id @GeneratedValue
     private Long id;
+    @Size(min=4,max=70)
     @Column(length = 70)
+    @NotNull
     private String designation;
+    @NonNull
     private double prix;
+    @NotNull
     private int quantite;
     @ManyToOne
     @JoinColumn(name="ID_CAT")
@@ -25,7 +33,7 @@ public class Produit implements Serializable{
     public Produit() {
     }
 
-    public Produit(String designation, double prix, int quantite) {
+    public Produit(@NonNull String designation,@NonNull double prix,@NonNull int quantite) {
         this.designation = designation;
         this.prix = prix;
         this.quantite = quantite;

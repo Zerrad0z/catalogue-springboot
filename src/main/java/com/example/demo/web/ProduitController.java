@@ -2,11 +2,13 @@ package com.example.demo.web;
 
 import com.example.demo.dao.ProduitRepository;
 import com.example.demo.entities.Produit;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,5 +38,23 @@ public class ProduitController {
     public String delete(Long id,String motCle,int page,int size){
         produitRepository.deleteById(id);
         return "redirect:/index?page="+page+"&size="+size+"&motCle="+motCle;
+    }
+    @RequestMapping(value = "/form",method = RequestMethod.GET)
+    public String formProduit(Model model){
+        model.addAttribute("produit",new Produit());
+        return "formProduit";
+    }
+    @RequestMapping(value = "/edit",method = RequestMethod.GET)
+    public String edit(Model model,Long id){
+        Produit p=produitRepository.findById(id).get();
+        model.addAttribute("produit",p);
+        return "EditProduit";
+    }
+    @RequestMapping(value = "/save",method = RequestMethod.POST)
+    public String save(Model model, @Valid Produit produit, BindingResult bindingResult){
+        if(bindingResult.hasErrors())
+            return "formProduit";
+          produitRepository.save(produit);
+          return "confirmation";
     }
 }
